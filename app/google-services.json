@@ -1,0 +1,99 @@
+{
+  "project_info": {
+    "project_number": "282811986012",
+    "firebase_url": "https://travelbirdreisetagebuch.firebaseio.com",
+    "project_id": "travelbirdreisetagebuch",
+    "storage_bucket": "travelbirdreisetagebuch.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:282811986012:android:0f5bad165a3b315c",
+        "android_client_info": {
+          "package_name": "com.example.eva_mariaschoen.sose2018travelbird"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "282811986012-b99g4fnnof7b7qg49s7t0g9d7e3ljqiq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.eva_mariaschoen.sose2018travelbird",
+            "certificate_hash": "8d8ef71ae1347ad464f5a3ae951660e7c0581e71"
+          }
+        },
+        {
+          "client_id": "282811986012-itpt4nufm4r09g9uov2o5phopa6ttjie.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCql2HulVT3cMrW35LcIBVVc4fvcGerNKg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "282811986012-itpt4nufm4r09g9uov2o5phopa6ttjie.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:282811986012:android:4ac1bd3fc20597e4",
+        "android_client_info": {
+          "package_name": "com.example.eva_mariaschoen.travelbirdreisetagebuch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "282811986012-tqvn4q6mfgv787lqvvpitkble1s99mkq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.eva_mariaschoen.travelbirdreisetagebuch",
+            "certificate_hash": "8d8ef71ae1347ad464f5a3ae951660e7c0581e71"
+          }
+        },
+        {
+          "client_id": "282811986012-itpt4nufm4r09g9uov2o5phopa6ttjie.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCql2HulVT3cMrW35LcIBVVc4fvcGerNKg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "282811986012-itpt4nufm4r09g9uov2o5phopa6ttjie.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
