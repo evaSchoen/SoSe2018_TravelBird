@@ -36,8 +36,8 @@
                         android:layout_height="120dp"
                         android:adjustViewBounds="true"
                         android:background="@drawable/circle"
-                        android:scaleType="centerInside"
-                        />
+                        android:contentDescription="Profile Picture"
+                        android:scaleType="centerInside" />
 
                 </RelativeLayout>
         </RelativeLayout>

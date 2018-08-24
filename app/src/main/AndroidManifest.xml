@@ -19,7 +19,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ProfileActivity"></activity>
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/activity_profile_name"></activity>
+        <activity
+            android:name=".TravelsActivity"
+            android:label="@string/activity_travels_name"></activity>
+        <activity
+            android:name=".NewTravelActivity"
+            android:label="@string/activity_new_travel_name"></activity>
+        <activity
+            android:name=".CalendarActivity"
+            android:label="@string/activity_calendar_name"></activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
     </application>
 
 </manifest>
