@@ -1,34 +1,79 @@
 package com.example.eva_mariaschoen.sose2018travelbird;
 
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
-public class ProfileActivity extends AppCompatActivity {
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-    private DrawerLayout mDrawerlayout;
-    private ActionBarDrawerToggle mDrawerToggle;
+
+public class ProfileActivity extends BaseActivity {
+
+    TextView eMailTextView;
+    TextView userNameTextView;
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore firestore;
+    FloatingActionButton addTravelProfile;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        getLayoutInflater().inflate(R.layout.activity_profile, frameLayout);
+        setTitle("Profile");
 
-        mDrawerlayout = (DrawerLayout) findViewById(R.id.drawer);
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerlayout, R.string.open, R.string.close);
-        mDrawerlayout.addDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        userNameTextView=(TextView)findViewById(R.id.userNameProfile);
 
-    }
+        firebaseAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String email = firebaseAuth.getCurrentUser().getEmail();
+        DocumentReference docRef = firestore.collection("users").document(user.getUid());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot document = task.getResult();
+                    if(document.exists()){
+                        userNameTextView.setText(document.getString("name"));
+                    }
+                }
+            }
+        });
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(mDrawerToggle.onOptionsItemSelected(item)){
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        addTravelProfile = (FloatingActionButton)findViewById(R.id.addTravelProfile);
+        eMailTextView=(TextView)findViewById(R.id.emailProfile);
+        eMailTextView.setText(email);
+
+
+        addTravelProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ProfileActivity.this, NewTravelActivity.class );
+                startActivity(i);
+            }
+        });
+
     }
 }
+
+
+
+
+
+
+
+
+

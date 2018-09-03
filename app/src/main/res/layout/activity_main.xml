@@ -25,7 +25,7 @@
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="TravelBird Reisetagebuch">
+            >
 
         </android.support.v7.widget.Toolbar>
 

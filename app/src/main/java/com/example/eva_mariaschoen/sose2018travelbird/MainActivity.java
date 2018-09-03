@@ -27,10 +27,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -79,11 +86,13 @@ public class MainActivity extends AppCompatActivity {
         private Button buttonRegister;
         private EditText editTextEmail;
         private EditText editTextPassword;
+        private EditText editTextUserName;
         private ProgressDialog progressDialog;
 
         private Integer currTab;
 
         private FirebaseAuth firebaseAuth;
+        private FirebaseFirestore firestore;
 
         private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -111,12 +120,14 @@ public class MainActivity extends AppCompatActivity {
 
 
             firebaseAuth = FirebaseAuth.getInstance();
+            firestore = FirebaseFirestore.getInstance();
 
             progressDialog = new ProgressDialog(getActivity());
 
             buttonRegister = (Button) rootView.findViewById(R.id.buttonRegister);
             editTextEmail = (EditText) rootView.findViewById(R.id.editTextEmail);
             editTextPassword = (EditText) rootView.findViewById(R.id.editTextPassword);
+            editTextUserName = (EditText) rootView.findViewById(R.id.editTextUserName);
 
             if(currTab == 1) {
                 buttonRegister.setText("Register");
@@ -157,6 +168,8 @@ public class MainActivity extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 Toast.makeText(getActivity(), "Loged in successfully!", Toast.LENGTH_SHORT).show();
                                 Intent profileIntent = new Intent(getActivity(), ProfileActivity.class);
+
+
                                 startActivity(profileIntent);
                             }
                             else {
@@ -172,6 +185,25 @@ public class MainActivity extends AppCompatActivity {
 
             String email = editTextEmail.getText().toString().trim();
             String password = editTextPassword.getText().toString().trim();
+            String username = editTextUserName.getText().toString().trim();
+
+
+
+            /*UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(username)
+                    .build();
+
+            user.updateProfile(profileUpdates)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getContext(), "Username updated", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
+                    */
 
             if (TextUtils.isEmpty(email)) {
                 Toast.makeText(getActivity(), "enter your email here", Toast.LENGTH_SHORT).show();
@@ -183,6 +215,10 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
+            if (TextUtils.isEmpty(username)) {
+                Toast.makeText(getActivity(), "enter username here", Toast.LENGTH_SHORT).show();
+                return;
+            }
             progressDialog.setMessage("Registering User");
             progressDialog.show();
 
@@ -195,6 +231,18 @@ public class MainActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
 
                                 FirebaseUser user = firebaseAuth.getCurrentUser();
+                                Map<String, String> userMap = new HashMap<>();
+                                userMap.put("name", username);
+                                userMap.put("uid", user.getUid());
+
+                                firestore.collection("users").document(user.getUid()).set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void mVoid) {
+
+                                        Toast.makeText(getContext(), "Username added to Firestore", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
 
                                 Toast.makeText(getActivity(), "Registered successfully!", Toast.LENGTH_SHORT).show();
 
@@ -203,8 +251,12 @@ public class MainActivity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(getActivity(), "Could not register user!", Toast.LENGTH_SHORT).show();
                             }
+
+
                         }
                     });
+
+
         }
     }
 
