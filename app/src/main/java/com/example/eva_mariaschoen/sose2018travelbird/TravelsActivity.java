@@ -1,5 +1,6 @@
 package com.example.eva_mariaschoen.sose2018travelbird;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -30,5 +31,6 @@ FloatingActionButton addTravelTravels;
                 startActivity(createTravel);
             }
         });
+
     }
 }

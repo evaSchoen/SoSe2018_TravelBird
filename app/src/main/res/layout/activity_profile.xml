@@ -85,9 +85,8 @@
                 android:layout_marginRight="30dp" />
 
 
-        </RelativeLayout>
 
-    />
+        </RelativeLayout>
 
 
 </android.support.v4.widget.DrawerLayout>

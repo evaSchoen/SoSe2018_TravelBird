@@ -1,6 +1,7 @@
 package com.example.eva_mariaschoen.sose2018travelbird;
 
 
+
 import android.app.DatePickerDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,11 +27,11 @@ public class NewTravelActivity extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener mDateSetListenerHomecoming;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_travel);
+
 
 
         departure = (EditText)findViewById(R.id.departure);
@@ -125,4 +126,7 @@ public class NewTravelActivity extends AppCompatActivity {
 
 
     }
+
+
+
 
