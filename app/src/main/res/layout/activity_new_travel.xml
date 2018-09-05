@@ -5,67 +5,69 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewTravelActivity"
-    >
-
-
+    tools:context=".NewTravelActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarNewTravel"
+        app:titleTextColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-
+        android:theme="@style/ToolbarTheme"
     />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="208dp"
-        android:layout_height="77dp"
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/travel_picture"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="74dp"
-        app:srcCompat="@android:drawable/ic_menu_gallery" />
+        android:layout_marginTop="145dp"
+        android:src="@mipmap/ic_launcher"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="3dp"
+        android:clickable="true"/>
 
     <EditText
+        android:id="@+id/travel_title"
         android:layout_width="361dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="187dp"
-        android:textAlignment="center"
-        android:hint="Choose your travel title" />
+        android:layout_marginBottom="246dp"
+        android:hint="@string/travel_title_text"
+        android:textAlignment="center" />
 
     <EditText
         android:id="@+id/departure"
         android:layout_width="144dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="19dp"
+        android:layout_marginBottom="187dp"
+        android:layout_marginStart="43dp"
         android:gravity="left"
-        android:hint="Departure"
+        android:hint="@string/departure_date"
         android:textAlignment="center" />
 
     <EditText
         android:id="@+id/homecoming"
         android:layout_width="156dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="19dp"
+        android:layout_alignTop="@+id/departure"
+        android:layout_toEndOf="@+id/textView"
         android:gravity="right"
-        android:hint="Homecoming"
+        android:hint="@string/homecoming_date"
         android:textAlignment="center" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:layout_centerInParent="true"
+        android:layout_alignBottom="@+id/departure"
+        android:layout_centerHorizontal="true"
         android:text="-"
+        android:textAlignment="center"
         android:textSize="30sp" />
 
 
@@ -73,15 +75,29 @@
         android:id="@+id/entry"
         android:layout_width="361dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/saveTravelButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="132dp"
         android:background="@android:color/transparent"
-        android:hint="Write down your experiences"
+        android:hint="@string/new_entry_edit_text"
         android:inputType="textMultiLine"
         android:lines="5"
-        android:textAlignment="center"
-        />
+        android:textAlignment="center" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/saveTravelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="30dp"
+        android:clickable="true"
+        app:backgroundTint="@color/colorPrimary"
+        app:rippleColor="@color/white"
+        app:srcCompat="@drawable/ic_if_check"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp" />
+
+
 
 
 </RelativeLayout>

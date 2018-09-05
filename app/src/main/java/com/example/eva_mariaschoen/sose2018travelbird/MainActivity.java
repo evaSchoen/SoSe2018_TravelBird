@@ -3,8 +3,6 @@ package com.example.eva_mariaschoen.sose2018travelbird;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,14 +14,12 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,9 +27,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -88,11 +83,14 @@ public class MainActivity extends AppCompatActivity {
         private EditText editTextPassword;
         private EditText editTextUserName;
         private ProgressDialog progressDialog;
+        ImageView profilePicture;
+
 
         private Integer currTab;
 
         private FirebaseAuth firebaseAuth;
         private FirebaseFirestore firestore;
+        //FirebaseAuthWeakPasswordException weakPasswordException;
 
         private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -128,8 +126,10 @@ public class MainActivity extends AppCompatActivity {
             editTextEmail = (EditText) rootView.findViewById(R.id.editTextEmail);
             editTextPassword = (EditText) rootView.findViewById(R.id.editTextPassword);
             editTextUserName = (EditText) rootView.findViewById(R.id.editTextUserName);
+            profilePicture = (ImageView) rootView.findViewById(R.id.profile_picture);
 
-            if(currTab == 1) {
+
+            if (currTab == 1) {
                 buttonRegister.setText("Register");
             } else {
                 buttonRegister.setText("Login");
@@ -143,9 +143,9 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
 
             if (view == buttonRegister) {
-                if(currTab == 1){
-                    registerUser();}
-                else {
+                if (currTab == 1) {
+                    registerUser();
+                } else {
                     loginUser();
                 }
 
@@ -165,14 +165,13 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             progressDialog.dismiss();
-                            if(task.isSuccessful()){
+                            if (task.isSuccessful()) {
                                 Toast.makeText(getActivity(), "Loged in successfully!", Toast.LENGTH_SHORT).show();
                                 Intent profileIntent = new Intent(getActivity(), ProfileActivity.class);
 
 
                                 startActivity(profileIntent);
-                            }
-                            else {
+                            } else {
                                 Toast.makeText(getActivity(), "Could not log in User!", Toast.LENGTH_SHORT).show();
                             }
 
@@ -188,37 +187,21 @@ public class MainActivity extends AppCompatActivity {
             String username = editTextUserName.getText().toString().trim();
 
 
-
-            /*UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                    .setDisplayName(username)
-                    .build();
-
-            user.updateProfile(profileUpdates)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(getContext(), "Username updated", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-
-                    */
-
             if (TextUtils.isEmpty(email)) {
-                Toast.makeText(getActivity(), "enter your email here", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "enter your email", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if (TextUtils.isEmpty(password)) {
-                Toast.makeText(getActivity(), "enter password here", Toast.LENGTH_SHORT).show();
+            if (password.length() < 6) {
+                Toast.makeText(getActivity(), "enter password with at least 6 characters", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (TextUtils.isEmpty(username)) {
-                Toast.makeText(getActivity(), "enter username here", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "enter username", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             progressDialog.setMessage("Registering User");
             progressDialog.show();
 
@@ -234,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
                                 Map<String, String> userMap = new HashMap<>();
                                 userMap.put("name", username);
                                 userMap.put("uid", user.getUid());
+
 
                                 firestore.collection("users").document(user.getUid()).set(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override

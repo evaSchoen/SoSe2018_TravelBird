@@ -7,13 +7,16 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,14 +31,15 @@ public class BaseActivity extends AppCompatActivity {
 
     DrawerLayout mDrawerLayout;
     FrameLayout frameLayout;
+
     NavigationView navigationView;
     Toolbar toolbar;
     TextView eMailTextView;
     TextView userNameTextView;
+    ImageView userPictureImageView;
 
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
-
 
 
     @Override
@@ -55,11 +59,11 @@ public class BaseActivity extends AppCompatActivity {
 
         String email = user.getEmail();
 
-
-
         mDrawerLayout = findViewById(R.id.drawer_layout);
         frameLayout = findViewById(R.id.content_frame);
-
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
 
         navigationView = findViewById(R.id.nav_view);
         View headerDrawer = navigationView.getHeaderView(0);
@@ -71,7 +75,6 @@ public class BaseActivity extends AppCompatActivity {
                         menuItem.setChecked(true);
                         // close drawer when item is tapped
                         mDrawerLayout.closeDrawers();
-
                         int id = menuItem.getItemId();
                         switch (id) {
                             case R.id.nav_home:
@@ -86,10 +89,6 @@ public class BaseActivity extends AppCompatActivity {
                                 Intent calendar = new Intent(getApplicationContext(), CalendarActivity.class);
                                 startActivity(calendar);
                                 break;
-                            case R.id.nav_settings:
-                                Intent settings = new Intent(getApplicationContext(), SettingsActivity.class);
-                                startActivity(settings);
-                                break;
                             case R.id.nav_logout:
 
                                 FirebaseAuth.getInstance().signOut(); //End user session
@@ -103,38 +102,27 @@ public class BaseActivity extends AppCompatActivity {
 
                 });
 
-        eMailTextView=(TextView)headerDrawer.findViewById(R.id.emailHeader);
+        eMailTextView = (TextView) headerDrawer.findViewById(R.id.emailHeader);
         eMailTextView.setText(email);
 
 
-        userNameTextView = (TextView)headerDrawer.findViewById(R.id.userNameHeader);
+        userNameTextView = (TextView) headerDrawer.findViewById(R.id.userNameHeader);
+        userPictureImageView = (ImageView) headerDrawer.findViewById(R.id.userPictureHeader);
 
         DocumentReference docRef = firestore.collection("users").document(user.getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    if(document.exists()){
+                    if (document.exists()) {
                         userNameTextView.setText(document.getString("name"));
                     }
                 }
             }
         });
 
-
-
-
-
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+
 }

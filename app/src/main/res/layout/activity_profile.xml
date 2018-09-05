@@ -5,7 +5,8 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    >
 
     <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
     <FrameLayout
@@ -36,16 +37,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="166dp"
-                android:layout_height="147dp"
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_picture"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="114dp"
-                android:contentDescription="@string/nav_header_desc"
-                android:paddingTop="@dimen/nav_header_vertical_spacing"
-                app:srcCompat="@mipmap/ic_launcher_round" />
+                android:layout_marginTop="145dp"
+                android:src="@mipmap/ic_launcher"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="3dp" />
+
+
 
             <TextView
                 android:id="@+id/userNameProfile"
@@ -66,8 +70,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="189dp"
-                android:text="email" />
+                android:layout_marginBottom="206dp"
+                android:text="@string/email"
+                android:textSize="15dp" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/addTravelProfile"

@@ -13,7 +13,7 @@
     android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/userPictureHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/nav_header_desc"
@@ -32,7 +32,7 @@
         android:id="@+id/emailHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="email"/>
+        android:text="@string/email_header"/>
 
 
 </LinearLayout>
