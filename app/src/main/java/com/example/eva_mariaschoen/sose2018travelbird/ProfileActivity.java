@@ -6,12 +6,14 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +22,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.annotation.GlideModule;
+
+import com.bumptech.glide.module.AppGlideModule;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -70,12 +76,26 @@ public class ProfileActivity extends BaseActivity {
         firebaseStorage = FirebaseStorage.getInstance();
 
         storageReference = firebaseStorage.getReference();
-
-
         FirebaseUser user = firebaseAuth.getCurrentUser();
+
+
         String email = firebaseAuth.getCurrentUser().getEmail();
 
+        //create reference to image in storage by identifying it with user id
+        //get image from storage by uri(file path) and load it into imageview
+        StorageReference profilePictureReference = storageReference.child("images/" + user.getUid().toString());
+        profilePictureReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                //profilePicture.setImageURI(uri);
+                Log.d("uri log", "" + uri);
+                Glide.with(getApplicationContext()).load(uri).into(profilePicture);
 
+            }
+        });
+
+        //create reference to username in firestore by identifying it with user id
+        //get username from firestore by reference and load it into textview
         DocumentReference docRef = firestore.collection("users").document(user.getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -93,7 +113,6 @@ public class ProfileActivity extends BaseActivity {
         eMailTextView = (TextView) findViewById(R.id.emailProfile);
         eMailTextView.setText(email);
 
-
         addTravelProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,9 +121,7 @@ public class ProfileActivity extends BaseActivity {
             }
         });
 
-
     }
-
 
     //create three dots menu for profile-settings
     @Override
@@ -179,9 +196,10 @@ public class ProfileActivity extends BaseActivity {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
+            FirebaseUser user = firebaseAuth.getCurrentUser();
 
 
-            StorageReference ref = storageReference.child("images/" + UUID.randomUUID().toString());
+            StorageReference ref = storageReference.child("images/" + user.getUid().toString());
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -224,6 +242,18 @@ public class ProfileActivity extends BaseActivity {
         }
 
         uploadImage();
+
+
+
+        // Reference to an image file in Cloud Storage
+        //StorageReference storageReference =  FirebaseStorage.getInstance().getReference().child("images");
+
+
+        // Load the image using Glide
+        //Glide.with(this /* context */)
+                //.load(storageReference)
+               // .into(profilePicture );
+
     }
 
 
