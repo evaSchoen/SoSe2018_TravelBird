@@ -40,13 +40,13 @@
 
             <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/profile_picture"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="145dp"
-                android:src="@mipmap/ic_launcher"
-                app:civ_border_color="@color/white"
+                android:src="@mipmap/travel_bird"
+                app:civ_border_color="@color/colorPrimary"
                 app:civ_border_width="3dp" />
 
 

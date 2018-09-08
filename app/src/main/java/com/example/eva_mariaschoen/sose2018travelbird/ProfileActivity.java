@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
@@ -22,10 +23,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.annotation.GlideModule;
-
-import com.bumptech.glide.module.AppGlideModule;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,6 +45,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class ProfileActivity extends BaseActivity {
 
@@ -56,7 +58,11 @@ public class ProfileActivity extends BaseActivity {
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
     FloatingActionButton addTravelProfile;
-    ImageView profilePicture;
+    CircleImageView profilePicture;
+    CircleImageView profilePictureHeader;
+    NavigationView navigationView;
+    View headerDrawer;
+
     private Uri filePath;
 
     String username_Text = "";
@@ -69,8 +75,7 @@ public class ProfileActivity extends BaseActivity {
         setTitle("Profile");
 
         userNameTextView = (TextView) findViewById(R.id.userNameProfile);
-        profilePicture = (ImageView) findViewById(R.id.profile_picture);
-
+        profilePicture = (CircleImageView) findViewById(R.id.profile_picture);
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
@@ -78,8 +83,8 @@ public class ProfileActivity extends BaseActivity {
         storageReference = firebaseStorage.getReference();
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
-
         String email = firebaseAuth.getCurrentUser().getEmail();
+
 
         //create reference to image in storage by identifying it with user id
         //get image from storage by uri(file path) and load it into imageview
@@ -90,9 +95,11 @@ public class ProfileActivity extends BaseActivity {
                 //profilePicture.setImageURI(uri);
                 Log.d("uri log", "" + uri);
                 Glide.with(getApplicationContext()).load(uri).into(profilePicture);
-
+                //
             }
         });
+
+
 
         //create reference to username in firestore by identifying it with user id
         //get username from firestore by reference and load it into textview
@@ -224,11 +231,17 @@ public class ProfileActivity extends BaseActivity {
                         }
                     });
         }
+
+
+
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
+
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null) {
@@ -236,6 +249,9 @@ public class ProfileActivity extends BaseActivity {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 profilePicture.setImageBitmap(bitmap);
+
+
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -245,16 +261,11 @@ public class ProfileActivity extends BaseActivity {
 
 
 
-        // Reference to an image file in Cloud Storage
-        //StorageReference storageReference =  FirebaseStorage.getInstance().getReference().child("images");
 
-
-        // Load the image using Glide
-        //Glide.with(this /* context */)
-                //.load(storageReference)
-               // .into(profilePicture );
 
     }
+
+
 
 
 }

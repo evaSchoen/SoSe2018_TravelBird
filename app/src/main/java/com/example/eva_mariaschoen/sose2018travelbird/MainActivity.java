@@ -1,9 +1,12 @@
 package com.example.eva_mariaschoen.sose2018travelbird;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -34,6 +37,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity {
 
     /**
@@ -51,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
+        // Create the adapter that will return a fragment for each of the two
         // primary sections of the activity.
         mSectionsPagerAdapter = new MainActivity.SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -83,14 +89,14 @@ public class MainActivity extends AppCompatActivity {
         private EditText editTextPassword;
         private EditText editTextUserName;
         private ProgressDialog progressDialog;
-        ImageView profilePicture;
+        CircleImageView profilePicture;
 
 
         private Integer currTab;
 
         private FirebaseAuth firebaseAuth;
         private FirebaseFirestore firestore;
-        //FirebaseAuthWeakPasswordException weakPasswordException;
+
 
         private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -126,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             editTextEmail = (EditText) rootView.findViewById(R.id.editTextEmail);
             editTextPassword = (EditText) rootView.findViewById(R.id.editTextPassword);
             editTextUserName = (EditText) rootView.findViewById(R.id.editTextUserName);
-            profilePicture = (ImageView) rootView.findViewById(R.id.profile_picture);
+            profilePicture = (CircleImageView) rootView.findViewById(R.id.profile_picture);
 
 
             if (currTab == 1) {
@@ -145,11 +151,29 @@ public class MainActivity extends AppCompatActivity {
             if (view == buttonRegister) {
                 if (currTab == 1) {
                     registerUser();
+                    sendNotification();
                 } else {
                     loginUser();
                 }
 
             }
+        }
+
+        private void sendNotification() {
+            NotificationCompat.Builder notification;
+
+            notification = new NotificationCompat.Builder(getContext());
+            notification.setAutoCancel(true);
+            notification.setSmallIcon(R.drawable.ic_launcher_background);
+            notification.setContentTitle("Welcome to TravelBird!");
+            notification.setContentText("You have been registered successfully.");
+
+            Intent notificationIntent = new Intent(getContext(), ProfileActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            notification.setContentIntent(pendingIntent);
+            NotificationManager nm = (NotificationManager)getContext().getSystemService(NOTIFICATION_SERVICE);
+            nm.notify(23, notification.build());
+
         }
 
         private void loginUser() {

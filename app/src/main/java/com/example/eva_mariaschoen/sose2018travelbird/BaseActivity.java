@@ -2,6 +2,7 @@ package com.example.eva_mariaschoen.sose2018travelbird;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,13 +20,19 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -38,8 +45,10 @@ public class BaseActivity extends AppCompatActivity {
     TextView userNameTextView;
     ImageView userPictureImageView;
 
+    FirebaseStorage firebaseStorage;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
+    StorageReference storageReference;
 
 
     @Override
@@ -54,6 +63,8 @@ public class BaseActivity extends AppCompatActivity {
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReference();
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
@@ -107,7 +118,22 @@ public class BaseActivity extends AppCompatActivity {
 
 
         userNameTextView = (TextView) headerDrawer.findViewById(R.id.userNameHeader);
-        userPictureImageView = (ImageView) headerDrawer.findViewById(R.id.userPictureHeader);
+        userPictureImageView = (CircleImageView) headerDrawer.findViewById(R.id.userPictureHeader);
+
+
+       StorageReference profilePictureReference = storageReference.child("images/" + user.getUid().toString());
+
+        profilePictureReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                //profilePicture.setImageURI(uri);
+                Log.d("uri log", "" + uri);
+                Glide.with(getApplicationContext()).load(uri).into(userPictureImageView);
+
+            }
+        });
+
+
 
         DocumentReference docRef = firestore.collection("users").document(user.getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

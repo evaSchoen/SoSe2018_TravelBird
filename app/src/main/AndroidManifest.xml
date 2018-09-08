@@ -6,12 +6,9 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/travel_bird"
@@ -35,23 +32,27 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".TravelsActivity"
-            android:label="Travels"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:label="Trips"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CalendarActivity"
             android:label="Calendar"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".NewTravelActivity"
-            android:label="Create a new Travel"
+            android:label="Create a new Trip"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".NewEntryActivity"
-            android:label="Create a new Entry"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name=".BaseActivity" />
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".BaseActivity" />
 
+        <activity android:name=".ShowTravel"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="">
+
+        </activity>
     </application>
 
 </manifest>

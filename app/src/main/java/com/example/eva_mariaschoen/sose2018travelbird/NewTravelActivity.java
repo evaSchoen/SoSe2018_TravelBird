@@ -32,6 +32,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Scroller;
 import android.widget.TextView;
@@ -69,15 +70,18 @@ public class NewTravelActivity extends AppCompatActivity {
     EditText travelTitle;
     EditText departure;
     EditText homecoming;
-    Button buttonLocation;
+    ImageButton buttonLocation;
     private TextView viewLocation;
     FloatingActionButton saveTravel;
+    CircleImageView travelPicture;
+    private Uri filePath;
+
+    String entryString;
+
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firestore;
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
-    CircleImageView travelPicture;
-    private Uri filePath;
 
 
     DatePickerDialog.OnDateSetListener mDateSetListenerDeparture;
@@ -85,8 +89,13 @@ public class NewTravelActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            Log.d("savedInstanceState", "" + savedInstanceState);
+        }
+
         setContentView(R.layout.activity_new_travel);
 
         departure = (EditText) findViewById(R.id.departure);
@@ -94,7 +103,7 @@ public class NewTravelActivity extends AppCompatActivity {
         saveTravel = (FloatingActionButton) findViewById(R.id.saveTravelButton);
         travelTitle = (EditText) findViewById(R.id.travel_title);
         buttonEntry = (Button) findViewById(R.id.buttonEntry);
-        buttonLocation = (Button) findViewById(R.id.button_location);
+        buttonLocation = (ImageButton) findViewById(R.id.button_location);
         viewLocation = (TextView) findViewById(R.id.travel_location);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -104,8 +113,6 @@ public class NewTravelActivity extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
 
-
-
         travelPicture = (CircleImageView) findViewById(R.id.travel_picture);
         toolbar = (Toolbar) findViewById(R.id.toolbarNewTravel);
         setSupportActionBar(toolbar);
@@ -113,17 +120,15 @@ public class NewTravelActivity extends AppCompatActivity {
         buttonLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1000);
-                }
-                else {
+                } else {
                     LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                     Location location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
                     try {
                         String city = getAddress(location.getLatitude(), location.getLongitude());
                         viewLocation.setText(city);
-                    }
-                    catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -142,7 +147,7 @@ public class NewTravelActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(NewTravelActivity.this,
                         NewEntryActivity.class);
-                startActivity(i);
+                startActivityForResult(i, 123);
 
             }
         });
@@ -208,32 +213,36 @@ public class NewTravelActivity extends AppCompatActivity {
                 String result = "";
                 String departureString = "";
                 String homecomingString = "";
+                String location = "";
 
-                Intent ii= getIntent();
-                Bundle b = ii.getExtras();
 
-                if(b!=null)
-                {
-                    result = b.getString("ENTRY_STRING");
-                    Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
-                }
                 departureString = departure.getText().toString();
                 homecomingString = homecoming.getText().toString();
+                location = viewLocation.getText().toString();
 
                 String traveltitle = travelTitle.getText().toString().trim();
 
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+
                 Map<String, String> travelMap = new HashMap<>();
                 travelMap.put("title", traveltitle);
                 travelMap.put("uid", user.getUid());
-                travelMap.put("entry", result);
+                travelMap.put("entry", entryString);
                 travelMap.put("departure", departureString);
                 travelMap.put("homecoming", homecomingString);
+                travelMap.put("location", location );
 
-                firestore.collection("travels").add(travelMap);
+                firestore.collection("travels").add(travelMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        String documentIdString = documentReference.getId();
+                        uploadImage(documentIdString);
+
+
+                    }
+                });
                 String name = firestore.collection("travels").document().getId();
                 Log.d("travelName", "" + name);
-                uploadImage();
+                //uploadImage();
 
 
                 Intent i = new Intent(NewTravelActivity.this,
@@ -255,6 +264,8 @@ public class NewTravelActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 
     //set the the travel title picture with the picture user took from gallery
@@ -270,16 +281,21 @@ public class NewTravelActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+        if (requestCode == 123 && resultCode == RESULT_OK) {
+            entryString = data.getStringExtra("ENTRY_STRING");
+
+        }
     }
 
-    private void uploadImage() {
+    private void uploadImage(String documentIdString) {
         if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
             FirebaseUser user = firebaseAuth.getCurrentUser();
 
-            StorageReference ref = storageReference.child("images/" + firestore.collection("travels").toString());
+            StorageReference ref = storageReference.child("images/" + documentIdString);
             ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -320,42 +336,41 @@ public class NewTravelActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int [] grantResults){
-        switch (requestCode){
-            case 1000: if (grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-                Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                try {
-                    String city = getAddress(location.getLatitude(), location.getLongitude());
-                    viewLocation.setText(city);
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 1000:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                    Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    try {
+                        String fullLocation = getAddress(location.getLatitude(), location.getLongitude());
+                        viewLocation.setText(fullLocation);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Permission not granted", Toast.LENGTH_SHORT).show();
                 }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-            else {
-                Toast.makeText(getApplicationContext(), "Permission not granted", Toast.LENGTH_SHORT).show();
-            }
-            break;
+                break;
 
         }
     }
 
-    public String getAddress (double lats, double lons){
+    public String getAddress(double lats, double lons) {
         Geocoder geocoder;
         geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
         List<Address> addresses = null;
         try {
-            addresses = geocoder.getFromLocation(lats,lons, 1);
-        }
-        catch (IOException e){
+            addresses = geocoder.getFromLocation(lats, lons, 1);
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        if (addresses != null){
+        if (addresses != null) {
             String city = addresses.get(0).getLocality();
-            return city;
-        }
-        else {
+            String country = addresses.get(0).getCountryName();
+            String location = city + ", " + country;
+            return location;
+        } else {
             return "failed";
         }
     }

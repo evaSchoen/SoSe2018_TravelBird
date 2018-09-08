@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,7 +8,7 @@
     tools:context=".NewTravelActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbarNewTravel"
+        android:id="@+id/toolbarNewEntry"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentLeft="true"
@@ -24,12 +24,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="177dp"
         android:background="@android:color/transparent"
+        android:hint="Write down here what you experienced on your travel."
         android:inputType="textMultiLine"
-        android:lines="5"
         android:scrollbars="vertical"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="213dp" />
 
 
     <android.support.design.widget.FloatingActionButton
@@ -39,13 +40,12 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
         android:clickable="true"
         app:backgroundTint="@color/colorPrimary"
         app:rippleColor="@color/white"
-        app:srcCompat="@drawable/ic_if_check" />
+        app:srcCompat="@drawable/ic_if_check"
+        tools:layout_editor_absoluteX="328dp"
+        tools:layout_editor_absoluteY="511dp" />
 
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <group android:checkableBehavior="single">
+    <group android:id = "@+id/group1" android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:title="@string/home" />
+            android:title="@string/profile" />
         <item
             android:id="@+id/nav_travels"
-            android:title="@string/travels" />
+            android:title="@string/trips" />
         <item
             android:id="@+id/nav_calendar"
             android:title="@string/calendar" />
+    </group>
+    <group android:id = "@+id/group2" android:checkableBehavior="single">
         <item
             android:id="@+id/nav_logout"
             android:title="@string/logout" />
