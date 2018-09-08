@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewTravelActivity"
-    tools:layout_editor_absoluteY="25dp">
+    tools:context=".NewTravelActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbarNewTravel"
+        app:titleTextColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:theme="@style/ToolbarTheme"
-        app:titleTextColor="@color/white" />
+    />
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/travel_picture"
@@ -22,61 +22,43 @@
         android:layout_height="150dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="145dp"
         android:src="@mipmap/travel_bird"
-        android:tint="@color/white"
         app:civ_border_color="@color/colorPrimary"
         app:civ_border_width="3dp"
-        app:layout_constraintBottom_toTopOf="@+id/travel_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarNewTravel" />
+        android:tint="@color/white"/>
 
     <EditText
         android:id="@+id/travel_title"
         android:layout_width="361dp"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_below="@+id/travel_picture"
+        android:layout_centerHorizontal="true"
         android:background="@android:color/transparent"
         android:hint="@string/travel_title_text"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="262dp" />
+        android:textAlignment="center" />
 
     <TextView
         android:id="@+id/travel_location"
         android:layout_width="262dp"
-        android:layout_height="16dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="209dp"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="15sp"
-        tools:layout_editor_absoluteX="92dp"
-        tools:layout_editor_absoluteY="306dp" />
+        android:textSize="15sp" />
 
     <ImageButton
         android:id="@+id/button_location"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_alignBottom="@+id/travel_location"
-        android:layout_toStartOf="@+id/travel_location"
+        android:layout_alignStart="@+id/travel_title"
         android:background="@drawable/corners"
         android:shadowColor="@color/grey"
         android:tint="@color/white"
-        app:srcCompat="@drawable/ic_if_location"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="294dp" />
+        app:srcCompat="@drawable/ic_if_location" />
 
     <EditText
         android:id="@+id/departure"
@@ -84,28 +66,25 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/travel_title"
+        android:layout_marginBottom="152dp"
         android:background="@android:color/transparent"
         android:gravity="left"
         android:hint="@string/departure_date"
         android:textAlignment="center"
-        android:textColor="@color/black"
-        tools:layout_editor_absoluteX="36dp"
-        tools:layout_editor_absoluteY="337dp" />
+        android:textColor="@color/black" />
 
     <EditText
         android:id="@+id/homecoming"
         android:layout_width="156dp"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/travel_title"
-        android:layout_alignRight="@+id/travel_title"
         android:layout_alignTop="@+id/departure"
         android:background="@android:color/transparent"
         android:gravity="right"
+        android:textColor="@color/black"
         android:hint="@string/homecoming_date"
         android:textAlignment="center"
-        android:textColor="@color/black"
-        tools:layout_editor_absoluteX="212dp"
-        tools:layout_editor_absoluteY="337dp" />
+        android:layout_alignRight="@+id/travel_title" />
 
     <TextView
         android:id="@+id/textView"
@@ -114,11 +93,9 @@
         android:layout_alignTop="@+id/departure"
         android:layout_centerHorizontal="true"
         android:text="-"
-        android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="30sp"
-        tools:layout_editor_absoluteX="204dp"
-        tools:layout_editor_absoluteY="337dp" />
+        android:textAlignment="center"
+        android:textSize="30sp" />
 
     <Button
         android:id="@+id/buttonEntry"
@@ -126,20 +103,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="82dp"
         android:background="@drawable/corners"
         android:shadowColor="@color/white"
         android:text="@string/new_entry_edit_text"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        android:textColor="@color/white" />
+
 
 
     <android.support.design.widget.FloatingActionButton
@@ -148,16 +117,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="30dp"
         android:clickable="true"
         app:backgroundTint="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:rippleColor="@color/white"
-        app:srcCompat="@drawable/ic_if_check" />
+        app:srcCompat="@drawable/ic_if_check"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp" />
 
 
-</android.support.constraint.ConstraintLayout>
+
+
+</RelativeLayout>
