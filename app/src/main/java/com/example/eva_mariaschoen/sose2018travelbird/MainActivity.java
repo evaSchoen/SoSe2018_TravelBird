@@ -136,9 +136,9 @@ public class MainActivity extends AppCompatActivity {
 
 
             if (currTab == 1) {
-                buttonRegister.setText("Register");
+                buttonRegister.setText("Sign Up");
             } else {
-                buttonRegister.setText("Login");
+                buttonRegister.setText("Log In");
             }
 
             buttonRegister.setOnClickListener(this);
@@ -159,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        //sending a notification when signing up to app was successful
         private void sendNotification() {
             NotificationCompat.Builder notification;
 
@@ -166,12 +167,12 @@ public class MainActivity extends AppCompatActivity {
             notification.setAutoCancel(true);
             notification.setSmallIcon(R.drawable.ic_launcher_background);
             notification.setContentTitle("Welcome to TravelBird!");
-            notification.setContentText("You have been registered successfully.");
+            notification.setContentText("You signed up successfully.");
 
             Intent notificationIntent = new Intent(getContext(), ProfileActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             notification.setContentIntent(pendingIntent);
-            NotificationManager nm = (NotificationManager)getContext().getSystemService(NOTIFICATION_SERVICE);
+            NotificationManager nm = (NotificationManager) getContext().getSystemService(NOTIFICATION_SERVICE);
             nm.notify(23, notification.build());
 
         }
@@ -204,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        //signing up to app by uploading users inputs to firebase
         private void registerUser() {
 
             String email = editTextEmail.getText().toString().trim();
@@ -217,17 +219,18 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (password.length() < 6) {
-                Toast.makeText(getActivity(), "enter password with at least 6 characters", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "enter a password with at least 6 characters", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (TextUtils.isEmpty(username)) {
-                Toast.makeText(getActivity(), "enter username", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "enter an username", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             progressDialog.setMessage("Registering User");
             progressDialog.show();
+
 
             firebaseAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
@@ -247,17 +250,15 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void mVoid) {
 
-                                        Toast.makeText(getContext(), "Username added to Firestore", Toast.LENGTH_SHORT).show();
 
                                     }
                                 });
 
-                                Toast.makeText(getActivity(), "Registered successfully!", Toast.LENGTH_SHORT).show();
 
                                 Intent profileIntent = new Intent(getActivity(), ProfileActivity.class);
                                 startActivity(profileIntent);
                             } else {
-                                Toast.makeText(getActivity(), "Could not register user!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Sorry, something went wrong. Please try again!", Toast.LENGTH_LONG).show();
                             }
 
 

@@ -68,6 +68,7 @@ public class TravelsActivity extends BaseActivity {
         travelList = (ListView) view.findViewById(R.id.travelList);
         arrayList = new ArrayList<>();
 
+        //using user id for showing the right document of firebase collection "trips" in the listview
         firestore.collection("travels").whereEqualTo("uid", user.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
             @Override
@@ -116,7 +117,7 @@ public class TravelsActivity extends BaseActivity {
 
             }
         });
-
+        //deleting a trip by clicking on item for a longer time
         travelList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             @Override
@@ -135,6 +136,8 @@ public class TravelsActivity extends BaseActivity {
         });
     }
 
+    //asking if user really wants to delete the trip
+    //if yesy, deleting document from firebase collection
     private AlertDialog AskOption(Object item) {
         AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this)
                 //set message, title, and icon

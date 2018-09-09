@@ -59,9 +59,6 @@ public class ProfileActivity extends BaseActivity {
     StorageReference storageReference;
     FloatingActionButton addTravelProfile;
     CircleImageView profilePicture;
-    CircleImageView profilePictureHeader;
-    NavigationView navigationView;
-    View headerDrawer;
 
     private Uri filePath;
 
@@ -92,13 +89,10 @@ public class ProfileActivity extends BaseActivity {
         profilePictureReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                //profilePicture.setImageURI(uri);
-                Log.d("uri log", "" + uri);
                 Glide.with(getApplicationContext()).load(uri).into(profilePicture);
                 //
             }
         });
-
 
 
         //create reference to username in firestore by identifying it with user id
@@ -176,6 +170,7 @@ public class ProfileActivity extends BaseActivity {
         builder.setView(input);
 
         // Set up the buttons
+        //if ok is clicked, username in firestore gets updated
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -198,6 +193,8 @@ public class ProfileActivity extends BaseActivity {
         builder.show();
     }
 
+    //upload the picture to firestore
+    //inform user about updating with a progressdialog
     private void uploadImage() {
         if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -233,13 +230,11 @@ public class ProfileActivity extends BaseActivity {
         }
 
 
-
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
 
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -251,7 +246,6 @@ public class ProfileActivity extends BaseActivity {
                 profilePicture.setImageBitmap(bitmap);
 
 
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -260,12 +254,7 @@ public class ProfileActivity extends BaseActivity {
         uploadImage();
 
 
-
-
-
     }
-
-
 
 
 }

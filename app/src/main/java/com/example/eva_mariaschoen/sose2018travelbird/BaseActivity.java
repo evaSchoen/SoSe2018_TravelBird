@@ -76,6 +76,7 @@ public class BaseActivity extends AppCompatActivity {
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+        //set up the drawer menu
         navigationView = findViewById(R.id.nav_view);
         View headerDrawer = navigationView.getHeaderView(0);
         navigationView.setNavigationItemSelectedListener(
@@ -112,7 +113,7 @@ public class BaseActivity extends AppCompatActivity {
 
 
                 });
-
+        //set users username, email and profile picture to drawer menu header
         eMailTextView = (TextView) headerDrawer.findViewById(R.id.emailHeader);
         eMailTextView.setText(email);
 
@@ -121,7 +122,7 @@ public class BaseActivity extends AppCompatActivity {
         userPictureImageView = (CircleImageView) headerDrawer.findViewById(R.id.userPictureHeader);
 
 
-       StorageReference profilePictureReference = storageReference.child("images/" + user.getUid().toString());
+        StorageReference profilePictureReference = storageReference.child("images/" + user.getUid().toString());
 
         profilePictureReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -134,7 +135,7 @@ public class BaseActivity extends AppCompatActivity {
         });
 
 
-
+        //getting the profile picture from firebase
         DocumentReference docRef = firestore.collection("users").document(user.getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

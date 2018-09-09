@@ -54,7 +54,7 @@ public class NewEntryActivity extends AppCompatActivity {
         save = (FloatingActionButton) findViewById(R.id.saveEntryButton);
 
 
-
+        //save users entry in intent for using it later at saving the whole trip in NewTravelActivity
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,6 +68,7 @@ public class NewEntryActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle arrow click here

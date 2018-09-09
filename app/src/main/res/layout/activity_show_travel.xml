@@ -42,79 +42,62 @@
 
     <TextView
         android:id="@+id/travel_location_view"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:layout_alignParentStart="true"
+        android:layout_alignLeft="@+id/travel_departure_view"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="102dp"
-        android:layout_marginTop="98dp"
+        android:layout_alignStart="@+id/travel_departure_view"
+        android:layout_marginTop="80dp"
+        android:drawableLeft="@drawable/ic_if_location"
         android:text="TextView"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="102dp" />
+        android:textAlignment="center"
+        android:textSize="18dp" />
 
-    <ImageView
-        android:id="@+id/location_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="49dp"
-        android:layout_marginTop="90dp"
-        app:srcCompat="@drawable/ic_location"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="49dp" />
-
-    <ImageView
-        android:id="@+id/calendar_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/location_icon"
-        android:layout_marginTop="137dp"
-        app:srcCompat="@android:drawable/ic_menu_my_calendar"
-        android:layout_alignLeft="@+id/location_icon" />
 
     <TextView
         android:id="@+id/travel_departure_view"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/calendar_icon"
-        android:layout_alignStart="@+id/travel_location_view"
+        android:layout_alignLeft="@+id/travel_entry_view"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/travel_entry_view"
+        android:layout_marginTop="105dp"
+        android:drawableLeft="@drawable/ic_calendar"
         android:text="TextView"
-        android:textSize="15sp"
-        android:layout_alignLeft="@+id/travel_location_view" />
+        android:textAlignment="center"
+        android:textSize="18dp" />
 
     <TextView
         android:id="@+id/travel_homecoming_view"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/calendar_icon"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="140dp"
+        android:layout_alignLeft="@+id/travel_location_view"
+        android:layout_alignStart="@+id/travel_location_view"
+        android:layout_below="@+id/travel_departure_view"
+        android:drawableLeft="@drawable/ic_calendar"
         android:text="TextView"
-        android:textSize="15sp"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="140dp" />
+        android:textAlignment="center"
+        android:textSize="18dp" />
 
     <View
+        android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:layout_marginTop="193dp"
         android:background="@color/colorPrimary"
-        android:layout_alignParentLeft="true" />
+         />
 
     <TextView
         android:id="@+id/travel_entry_view"
-        android:layout_width="316dp"
-        android:layout_height="143dp"
-        android:layout_alignStart="@+id/location_icon"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="18dp"
+        android:layout_alignTop="@+id/line"
         android:layout_centerVertical="true"
         android:text="TextView"
-        android:textSize="15sp"
-        android:layout_alignLeft="@+id/location_icon" />
+        android:lines="15"
+        android:scrollbars="vertical"/>
 
 
 </RelativeLayout>

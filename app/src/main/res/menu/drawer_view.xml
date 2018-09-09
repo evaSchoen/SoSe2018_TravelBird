@@ -3,17 +3,21 @@
     <group android:id = "@+id/group1" android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:title="@string/profile" />
+            android:title="@string/profile"
+            android:icon="@drawable/ic_profile"/>
         <item
             android:id="@+id/nav_travels"
-            android:title="@string/trips" />
+            android:title="@string/trips"
+            android:icon="@drawable/ic_trips"/>
         <item
             android:id="@+id/nav_calendar"
-            android:title="@string/calendar" />
+            android:title="@string/calendar"
+            android:icon="@drawable/ic_calendar"/>
     </group>
     <group android:id = "@+id/group2" android:checkableBehavior="single">
         <item
             android:id="@+id/nav_logout"
-            android:title="@string/logout" />
+            android:title="@string/logout"
+            android:icon="@drawable/ic_logout"/>
     </group>
 </menu>

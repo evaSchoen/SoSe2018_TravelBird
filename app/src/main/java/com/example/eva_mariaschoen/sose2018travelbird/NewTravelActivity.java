@@ -93,7 +93,7 @@ public class NewTravelActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
-            Log.d("savedInstanceState", "" + savedInstanceState);
+
         }
 
         setContentView(R.layout.activity_new_travel);
@@ -117,7 +117,9 @@ public class NewTravelActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbarNewTravel);
         setSupportActionBar(toolbar);
 
+        //by hitting the "location" button users location with city and country is detected and set to the textview
         buttonLocation.setOnClickListener(new View.OnClickListener() {
+            //asking for permissions
             @Override
             public void onClick(View view) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -152,7 +154,7 @@ public class NewTravelActivity extends AppCompatActivity {
             }
         });
 
-
+        //opening a date picker for choosing date of arrival
         departure.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -180,7 +182,7 @@ public class NewTravelActivity extends AppCompatActivity {
             }
         };
 
-
+        //same as departure
         homecoming.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -207,6 +209,7 @@ public class NewTravelActivity extends AppCompatActivity {
             }
         };
 
+        //saving whole trip
         saveTravel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -222,14 +225,15 @@ public class NewTravelActivity extends AppCompatActivity {
 
                 String traveltitle = travelTitle.getText().toString().trim();
 
-
+                //creating a new document in firebase collection "travels"
+                //user id must be saved here too, using it in ShowTravelActivity for showing the trips of current user
                 Map<String, String> travelMap = new HashMap<>();
                 travelMap.put("title", traveltitle);
                 travelMap.put("uid", user.getUid());
                 travelMap.put("entry", entryString);
                 travelMap.put("departure", departureString);
                 travelMap.put("homecoming", homecomingString);
-                travelMap.put("location", location );
+                travelMap.put("location", location);
 
                 firestore.collection("travels").add(travelMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -242,8 +246,6 @@ public class NewTravelActivity extends AppCompatActivity {
                 });
                 String name = firestore.collection("travels").document().getId();
                 Log.d("travelName", "" + name);
-                //uploadImage();
-
 
                 Intent i = new Intent(NewTravelActivity.this,
                         TravelsActivity.class);

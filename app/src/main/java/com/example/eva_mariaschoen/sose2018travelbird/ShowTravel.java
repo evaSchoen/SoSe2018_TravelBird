@@ -54,12 +54,12 @@ public class ShowTravel extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        show_title = (TextView)findViewById(R.id.showTitleView);
+        show_title = (TextView) findViewById(R.id.showTitleView);
         show_location = (TextView) findViewById(R.id.travel_location_view);
-        show_departure = (TextView)findViewById(R.id.travel_departure_view);
-        show_homecoming = (TextView)findViewById(R.id.travel_homecoming_view);
-        show_entry = (TextView)findViewById(R.id.travel_entry_view);
-        show_picture = (CircleImageView)findViewById(R.id.travel_picture_show);
+        show_departure = (TextView) findViewById(R.id.travel_departure_view);
+        show_homecoming = (TextView) findViewById(R.id.travel_homecoming_view);
+        show_entry = (TextView) findViewById(R.id.travel_entry_view);
+        show_picture = (CircleImageView) findViewById(R.id.travel_picture_show);
 
         toolbar = (Toolbar) findViewById(R.id.toolbarShowTravel);
 
@@ -75,10 +75,10 @@ public class ShowTravel extends AppCompatActivity {
         String result = i.getExtras().getString("ITEM");
         show_title.setText(result);
 
-
+        //using user id and title of trip for getting the right information about the trip and showing it
         firestore.collection("travels")
                 .whereEqualTo("uid", user.getUid())
-                .whereEqualTo("title", result )
+                .whereEqualTo("title", result)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
             @Override
@@ -100,7 +100,7 @@ public class ShowTravel extends AppCompatActivity {
                     show_homecoming.setText(homecomingObject.toString());
                     show_entry.setText(entryObject.toString());
 
-                        getTravelImage(documentID);
+                    getTravelImage(documentID);
 
                     Log.d("departureLog", "" + documentString);
 
@@ -110,19 +110,18 @@ public class ShowTravel extends AppCompatActivity {
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle arrow click here
         if (item.getItemId() == android.R.id.home) {
             finish();
-            // close this activity and return to preview activity (if there is any)
+            // close this activity and return to preview activity
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void getTravelImage (String documentId) {
+    private void getTravelImage(String documentId) {
 
         StorageReference imageReference = storageReference.child("images/" + documentId);
         imageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -132,7 +131,6 @@ public class ShowTravel extends AppCompatActivity {
             }
         });
     }
-
 
 
 }
